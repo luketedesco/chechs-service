@@ -1,10 +1,13 @@
 // Import: Flutter
 import 'package:flutter/material.dart';
 // Import Third Party
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 // Import chechsservice
-import 'package:chechsservice/state/AppState.dart';
-import 'package:chechsservice/widgets/CommonWidgets.dart';
+// import 'package:chechsservice/state/AppState.dart';
+import 'package:chechsservice/screens/UserSummary/UserSummary.dart';
+import 'package:chechsservice/screens/HoursHistory/HoursHistory.dart';
+import 'package:chechsservice/screens/Opportunities/Opportunities.dart';
+// import 'package:chechsservice/widgets/CommonWidgets.dart';
 
 // ======================================
 // WIDGET: AppLayout
@@ -17,25 +20,15 @@ class AppLayout extends StatefulWidget {
 }
 
 class _AppLayoutState extends State<AppLayout> {
-  int _counter = 0;
+  int _pageIndex = 0;
 
   // ======================================
-  // METHOD: _incrementCounter
+  // METHOD: _setPage
   // ======================================
 
-  void _incrementCounter() {
+  void _setPage(int currentIndex) {
     setState(() {
-      _counter++;
-    });
-  }
-
-  // ======================================
-  // METHOD: _resetCounter
-  // ======================================
-
-  void _resetCounter() {
-    setState(() {
-      _counter = 0;
+      _pageIndex = currentIndex;
     });
   }
 
@@ -45,44 +38,38 @@ class _AppLayoutState extends State<AppLayout> {
 
   @override
   Widget build(BuildContext context) {
-    AppState state = Provider.of<AppState>(context);
+    // AppState state = Provider.of<AppState>(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Luke's Flutter App"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 60),
-              child: CommonBotton(
-                text: 'Reset',
-                onPressed: _resetCounter,
-              ),
-            ),
-            Text(
-              'Gloval Counter Value:',
-            ),
-            Text(
-              '${state.globalCounter}',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
+      body: IndexedStack(
+        index: _pageIndex,
+        children: <Widget>[
+          UserSummary(),
+          HoursHistory(),
+          Opportunities(),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.assignment_ind),
+            title: Text('User Summary'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.assessment),
+            title: Text('Hours History'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.format_list_numbered),
+            title: Text('Opportunities'),
+          ),
+        ],
+        currentIndex: _pageIndex,
+        selectedItemColor: Colors.blue,
+        onTap: _setPage,
       ),
     );
   }
