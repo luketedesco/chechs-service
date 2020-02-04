@@ -2,5 +2,5 @@
 import 'package:flutter/material.dart';
 
 class AppState with ChangeNotifier {
-  int globalCounter = 999;
+  bool nhsHoursCheck = true;
 }
