@@ -53,6 +53,7 @@ class _AppLayoutState extends State<AppLayout> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.grey.shade300,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.assignment_ind),

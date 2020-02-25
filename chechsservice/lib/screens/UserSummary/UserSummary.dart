@@ -12,7 +12,7 @@ import 'package:chechsservice/state/AppState.dart';
 class UserSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-      AppState state = Provider.of<AppState>(context);
+    AppState state = Provider.of<AppState>(context);
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -41,11 +41,88 @@ class UserSummary extends StatelessWidget {
               fontSize: 20,
             ),
           ),
-          Icon(
-            state.nhsHoursCheck ? Icons.check : Icons.cancel,
-            size: 75,
-            color: state.nhsHoursCheck ? Colors.greenAccent : Colors.redAccent
-          )
+          Icon(state.nhsHoursCheck ? Icons.check : Icons.cancel,
+              size: 75,
+              color:
+                  state.nhsHoursCheck ? Colors.greenAccent : Colors.redAccent),
+          Flexible(
+            flex: 8,
+            child: Row(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Card(
+                    child: InkWell(
+                      splashColor: Colors.blue,
+                      onTap: () {},
+                      child: Container(
+                        width: 175,
+                        height: 100,
+                        child: Align(
+                          child: Text('NUM of hours doing X activity'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Card(
+                    child: InkWell(
+                      splashColor: Colors.blue,
+                      onTap: () {},
+                      child: Container(
+                        width: 175,
+                        height: 100,
+                        child: Align(
+                          child: Text('NUM of hours doing W activity'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Flexible(
+            flex: 2,
+            child: Row(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Card(
+                    child: InkWell(
+                      splashColor: Colors.blue,
+                      onTap: () {},
+                      child: Container(
+                        width: 175,
+                        height: 100,
+                        child: Align(
+                          child: Text('NUM of hours spend doing Y activity'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Card(
+                    child: InkWell(
+                      splashColor: Colors.blue,
+                      onTap: () {},
+                      child: Container(
+                        width: 175,
+                        height: 100,
+                        child: Align(
+                          child: Text('Num of hours doing Z activity'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
