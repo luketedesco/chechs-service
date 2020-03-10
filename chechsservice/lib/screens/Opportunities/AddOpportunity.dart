@@ -28,7 +28,7 @@ class _AddOpportunityState extends State<AddOpportunity> {
     AppState state = Provider.of<AppState>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("App Bar"),
+        title: Text("Add Opportunity"),
       ),
       floatingActionButton: FloatingActionButton.extended(
         heroTag: "AddOpportunity",

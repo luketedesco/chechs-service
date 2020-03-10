@@ -2,13 +2,12 @@
 // import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 // Import: chechservice
 import 'package:chechsservice/state/AppState.dart';
-
 // Import: Third Party
 import 'package:provider/provider.dart';
-// import 'package:configurable_expansion_tile/configurable_expansion_tile.dart';
+import 'package:configurable_expansion_tile/configurable_expansion_tile.dart';
+import 'package:chechsservice/screens/HoursHistory/AddHours.dart';
 
 // ======================================
 // WIDGET: HoursHistory
@@ -26,8 +25,17 @@ class _HoursHistoryState extends State<HoursHistory> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        heroTag: 'AddHours',
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (context) => AddHours(),
+            ),
+          );
+        },
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -75,8 +83,8 @@ class _HoursHistoryCardState extends State<HoursHistoryCard> {
     return Container(
       margin: EdgeInsets.all(5),
       color: Colors.blueGrey,
-      child: ExpansionTile(
-        title: Column(
+      child: ConfigurableExpansionTile(
+        header: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
