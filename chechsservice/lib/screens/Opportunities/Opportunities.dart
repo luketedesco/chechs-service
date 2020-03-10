@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // Import Third Party
 import 'package:provider/provider.dart';
+import 'package:configurable_expansion_tile/configurable_expansion_tile.dart';
 // Import chechsservice
 import 'package:chechsservice/state/AppState.dart';
+import 'package:chechsservice/screens/Opportunities/AddOpportunity.dart';
 
 // ======================================
 // WIDGET: Opportunities
@@ -22,8 +24,17 @@ class _OpportunitiesState extends State<Opportunities> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        heroTag: "AddOpportunity",
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (context) => AddOpportunity(),
+            ),
+          );
+        },
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -57,6 +68,8 @@ class OpportunityCard extends StatefulWidget {
 }
 
 class _OpportunityCardState extends State<OpportunityCard> {
+  bool isPressed = false;
+
   @override
   Widget build(BuildContext context) {
     AppState state = Provider.of<AppState>(context);
@@ -68,41 +81,63 @@ class _OpportunityCardState extends State<OpportunityCard> {
     String endTime = DateFormat.yMMMMd('en_US').add_jm().format(opt['end']);
 
     return Container(
-      margin: EdgeInsets.all(5),
-      color: Colors.blue,
-      child: ExpansionTile(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              opt['location'],
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
+      color: Colors.blueGrey.shade200,
+      margin: EdgeInsets.fromLTRB(
+        MediaQuery.of(context).size.width * .025,
+        0,
+        MediaQuery.of(context).size.width * .025,
+        5,
+      ),
+      alignment: Alignment.centerLeft,
+
+      // padding: EdgeInsets.fromLTRB(10,0,10,0),
+      child: ConfigurableExpansionTile(
+        onExpansionChanged: (bool value) {
+          setState(() {
+            isPressed = value;
+          });
+        },
+        headerBackgroundColorStart: Colors.blueGrey,
+        headerBackgroundColorEnd: Colors.blueGrey.shade200,
+        expandedBackgroundColor: Colors.blueGrey.shade200,
+        header: Container(
+          width: MediaQuery.of(context).size.width * .95,
+          padding: EdgeInsets.fromLTRB(10, 7, 0, 7),
+          alignment: Alignment.centerLeft,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                opt['location'],
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: isPressed ? Colors.black : Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              startTime,
-              style: TextStyle(
-                color: Colors.grey.shade100,
-                fontSize: 12,
-                height: 1.5,
+              Text(
+                startTime,
+                style: TextStyle(
+                  color: isPressed ? Colors.black : Colors.white,
+                  fontSize: 12,
+                  height: 1.5,
+                ),
               ),
-            ),
-            Text(
-              endTime,
-              style: TextStyle(
-                color: Colors.grey.shade100,
-                fontSize: 12,
-                height: 1.5,
+              Text(
+                endTime,
+                style: TextStyle(
+                  color: isPressed ? Colors.black : Colors.white,
+                  fontSize: 12,
+                  height: 1.5,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         children: <Widget>[
           Container(
-            padding: EdgeInsets.fromLTRB(15, 10, 10, 5),
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
             width: MediaQuery.of(context).size.width,
             child: Column(
               mainAxisSize: MainAxisSize.max,

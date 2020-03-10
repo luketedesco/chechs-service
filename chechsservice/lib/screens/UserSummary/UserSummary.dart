@@ -41,7 +41,7 @@ class UserSummary extends StatelessWidget {
               fontSize: 20,
             ),
           ),
-          Icon(state.nhsHoursCheck ? Icons.check : Icons.cancel,
+          Icon(state.nhsHoursCheck ? Icons.check : Icons.close,
               size: 75,
               color:
                   state.nhsHoursCheck ? Colors.greenAccent : Colors.redAccent),

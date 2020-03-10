@@ -207,5 +207,5 @@ final ThemeData primaryTheme = ThemeData(
 
   // The color used for widgets in their inactive (but enabled) state.
   // For example, an unchecked checkbox. Usually contrasted with the accentColor. See also disabledColor
-  // unselectedWidgetColor: Color
+  unselectedWidgetColor: Colors.white
 );

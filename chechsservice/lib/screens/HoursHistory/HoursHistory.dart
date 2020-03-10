@@ -1,74 +1,146 @@
 // Import: Flutter
-import 'dart:math';
-
+// import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+// Import: chechservice
+import 'package:chechsservice/state/AppState.dart';
+
+// Import: Third Party
+import 'package:provider/provider.dart';
+// import 'package:configurable_expansion_tile/configurable_expansion_tile.dart';
 
 // ======================================
 // WIDGET: HoursHistory
 // ======================================
 
-class HoursHistory extends StatelessWidget {
-  // METHOD: solveQuadratic
-  List<num> solveQuadratic(num a, num b, num c) {
-    num d = ((b * b) - (4 * a * c));
-    num addQuadratic = (-b + sqrt(d)) / (2 * a);
-    num subQuadratic = (-b - sqrt(d)) / (2 * a);
-    return [addQuadratic, subQuadratic];
-  }
+class HoursHistory extends StatefulWidget {
+  @override
+  _HoursHistoryState createState() => _HoursHistoryState();
+}
 
-  List testLoop(List input) {
-    List output = [];
-    num a = 1;
-    num b = 2;
-    for (var x in input) {
-      var d = solveQuadratic(a, b, x);
-      output.add(d);
-    }
-    return output;
-  }
-
+class _HoursHistoryState extends State<HoursHistory> {
   @override
   Widget build(BuildContext context) {
-    // Test my function
-    // List<num> output = solveQuadratic(1, 3, -10);
-
-    // Test loop function
-    // List output = testLoop([-1, 0, 10, 5, 5]);
-    // print(output);
+    AppState state = Provider.of<AppState>(context);
 
     return Scaffold(
-      floatingActionButton: FlatButton.icon(
-          onPressed: () {},
-          label: Text("Add Hours"),
-          textTheme: ButtonTextTheme.primary,
-          icon: Icon(Icons.add),
-          color: Colors.blueAccent),
-      body: Column(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {},
+      ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+        child: ListView(
+          children: <Widget>[
+            for (var item in state.hoursHistory.keys)
+              HoursHistoryCard(
+                hoursHistoryIndex: item,
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ======================================
+// WIDGET: HistoryCard
+// ======================================
+
+class HoursHistoryCard extends StatefulWidget {
+  // Define out inputs
+  final int hoursHistoryIndex;
+  HoursHistoryCard({
+    Key key,
+    @required this.hoursHistoryIndex,
+  }) : super(key: key);
+
+  @override
+  _HoursHistoryCardState createState() => _HoursHistoryCardState();
+}
+
+class _HoursHistoryCardState extends State<HoursHistoryCard> {
+  @override
+  Widget build(BuildContext context) {
+    AppState state = Provider.of<AppState>(context);
+
+    // Extract the history information
+    Map hist = state.hoursHistory[widget.hoursHistoryIndex];
+
+    String startTime =
+        DateFormat.yMMMMd('en_US').add_jm().format(hist['Start']);
+    String endTime = DateFormat.yMMMMd('en_US').add_jm().format(hist['End']);
+
+    return Container(
+      margin: EdgeInsets.all(5),
+      color: Colors.blueGrey,
+      child: ExpansionTile(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              hist['Name'],
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              startTime,
+              style: TextStyle(
+                color: Colors.grey.shade100,
+                fontSize: 12,
+                height: 1.5,
+              ),
+            ),
+            Text(
+              endTime,
+              style: TextStyle(
+                color: Colors.grey.shade100,
+                fontSize: 12,
+                height: 1.5,
+              ),
+            ),
+          ],
+        ),
         children: <Widget>[
-          DataTable(
-            columns: [
-              DataColumn(
-                label: Text("Oppertunities"),
-              ),
-              DataColumn(
-                label: Text("Hours"),
-              ),
-              DataColumn(
-                label: Text("Date"),
-              ),
-            ],
-            rows: [
-              DataRow(
-                cells: [
-                  DataCell(
-                    Text("data"),
-                  ),
-                  DataCell(Text("X"),),
-                  DataCell(Text("Y"),),
-                ],
-              ),
-            ],
-          ),
+          Container(
+            padding: EdgeInsets.fromLTRB(15, 10, 10, 5),
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  hist['Organization'],
+                  style: TextStyle(color: Colors.grey.shade100),
+                ),
+                Text(
+                  hist['Type'],
+                  style: TextStyle(color: Colors.grey.shade100),
+                ),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Counted towards NHS Hours?",
+                      style: TextStyle(color: Colors.grey.shade100),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 40),
+                      child: Icon(
+                        hist["NHS Hours"] ? Icons.check : Icons.close,
+                        color: hist["NHS Hours"]
+                            ? Colors.greenAccent
+                            : Colors.redAccent,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

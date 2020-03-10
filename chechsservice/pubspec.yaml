@@ -25,6 +25,9 @@ dependencies:
   
   # https://pub.dev/packages/intl
   intl: ^0.16.1
+  
+  # https://pub.dev/packages/configurable_expansion_tile
+  configurable_expansion_tile: ^1.0.0
 
 dev_dependencies:
   flutter_test:
